@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Beneficiario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <!-- Incluye jQuery desde un CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <h1>Agregar Beneficiario</h1>
+
+    <form>
+        <div class="form-row">
+
+            <div class="form-group col-md-4">
+                <label for="nombres">Nombre(s)</label>
+                <input type="text" class="form-control" id="nombres" name="nombres" value="{{ beneficiario.nombres }}"
+                    required>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="apellidoPaterno">Apellido Paterno</label>
+                <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno"
+                    value="{{ beneficiario.apellidoPaterno }}" required>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="apellidoMaterno">Apellido Materno</label>
+                <input type="text" class="form-control" id="apellidoMaterno">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="inputState">Sexo</label>
+                <select id="inputState" class="form-control">
+                    <option selected>Seleccione una opción</option>
+                    <option>Hombre</option>
+                    <option>Mujer</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="areas">Dirección que otorga el apoyo</label>
+                <select id="areas" name="area_id" class="form-control">
+                    <option selected>Seleccione una opción</option>
+                    {% for area in areas_list %}
+                    <option value="{{ area.id }}">{{ area.nombreCompleto }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group col-md-4">
+                <label for="programas">Programa</label>
+                <select id="programas" name="programa_id" class="form-control">
+                    <option selected>Seleccione una opción</option>
+                </select>
+            </div>
+            
+            <script>
+                document.getElementById('areas').addEventListener('change', function() {
+                    var areaId = this.value;
+                    var programasSelect = document.getElementById('programas');
+            
+                    // Limpiar el select de programas
+                    programasSelect.innerHTML = '<option selected>Seleccione una opción</option>';
+            
+                    if (areaId) {
+                        fetch(`/obtener_programas/${areaId}/`)
+                            .then(response => response.json())
+                            .then(data => {
+                                data.forEach(function(programa) {
+                                    var option = document.createElement('option');
+                                    option.value = programa.id;
+                                    option.textContent = programa.nombreCompleto;
+                                    programasSelect.appendChild(option);
+                                });
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
+                });
+            </script>
+
+        </div>
+
+        <div class="form-group">
+            <label for="inputAddress">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="form-group">
+            <label for="inputAddress2">Address 2</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCity">City</label>
+                <input type="text" class="form-control" id="inputCity">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputState">State</label>
+                <select id="inputState" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputZip">Zip</label>
+                <input type="text" class="form-control" id="inputZip">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Check me out
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+
+    <form method="POST" action="{% url 'agregar_beneficiario' %}">
+        {% csrf_token %}
+        <label for="nombre">Nombre(s)</label>
+        <input type="text" id="nombres" name="nombres" value="{{ beneficiario.nombres }}" required>
+
+        <label for="apellidoPaterno">Apellido Paterno</label>
+        <input type="text" id="apellidoPaterno" name="apellidoPaterno" value="{{ beneficiario.apellidoPaterno }}"
+            required>
+
+        <label for="apellidoMaterno">Apellido Materno</label>
+        <input type="text" id="apellidoMaterno" name="apellidoMaterno" value="{{ beneficiario.apellidoMaterno }}">
+
+        <label for="sexo">Sexo</label>
+        <input type="text" id="sexo" name="sexo" value="{{ beneficiario.sexo }}" required>
+
+        <label for="programa">Programa</label>
+        <input type="text" id="programa" name="programa" value="{{ beneficiario.programa }}" required>
+
+        <label for="area_programa">Area Programa</label>
+        <input type="text" id="area_programa" name="area_programa" value="{{ beneficiario.area_programa }}" required>
+
+        <label for="ejercicio">Ejercicio</label>
+        <input type="text" id="ejercicio" name="ejercicio" value="{{ beneficiario.ejercicio }}" required>
+
+        <label for="fecha">Fecha</label>
+        <input type="text" id="fecha" name="fecha" value="{{ beneficiario.fecha }}" required>
+
+        <label for="municipio">Municipio</label>
+        <input type="text" id="municipio" name="municipio" value="{{ beneficiario.municipio }}" required>
+
+        <button type="submit">Agregar</button>
+
+    </form>
+
+</body>
+
+</html>
