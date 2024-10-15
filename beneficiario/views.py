@@ -5,7 +5,7 @@ from django.http.response import JsonResponse
 from io import BytesIO
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import Beneficiario  # Asegúrate de importar tu modelo
+from .models import Beneficiario
 
 
 from beneficiario.models import Beneficiario, Area, Municipio
@@ -81,7 +81,7 @@ def agregar_beneficiario(request):
         return render(request, 'formulario_registro.html')
 
 def lista_beneficiarios(request):
-    area_query = request.GET.get('area_search', '')  # Obtener la consulta de búsqueda desde GET
+    area_query = request.GET.get('area_search', '')
     ejercicio_query = request.GET.get('ejercicio_search', '')
     municipio_query = request.GET.get('municipio_search', '')
 
@@ -92,28 +92,32 @@ def lista_beneficiarios(request):
     print("area: "+ area_query)
     print("ejercicio: "+ ejercicio_query)
     print("municipio: "+ municipio_query)
-
-    # Filtrar por búsqueda usando Q
     
-    beneficiarios_list = beneficiarios_list.filter(
-        Q(area_programa__icontains=area_query) &
-        Q(ejercicio__icontains=ejercicio_query) &
-        Q(municipio__icontains=municipio_query) 
-    )
+    if area_query or ejercicio_query or municipio_query:
+        beneficiarios_list = beneficiarios_list.filter(
+            Q(area_programa__icontains=area_query) &
+            Q(ejercicio__icontains=ejercicio_query) &
+            Q(municipio__icontains=municipio_query)
+        )
+        
+        total_beneficiarios_busqueda = beneficiarios_list.count()
+        
+        # Implementar paginación
+        paginator = Paginator(beneficiarios_list, 10)  # Mostrar 10 beneficiarios por página
+        page_number = request.GET.get('page')  # Obtener el número de página
+        beneficiarios = paginator.get_page(page_number)  # Obtener la página actual
 
-    # print("total de registros despues de la consulta: "+str(beneficiarios_list.count()))
-
-    total_beneficiarios_busqueda = beneficiarios_list.count()
-
-    # Implementar paginación
-    paginator = Paginator(beneficiarios_list, 10)  # Mostrar 10 beneficiarios por página
-    page_number = request.GET.get('page')  # Obtener el número de página
-    beneficiarios = paginator.get_page(page_number)  # Obtener la página actual
-
-    return render(request, 'lista_beneficiarios.html', {'beneficiarios': beneficiarios, 'municipios': municipios_list, 'areas': areas_list,
+        return render(request, 'lista_beneficiarios.html', {'beneficiarios': beneficiarios, 'municipios': municipios_list, 'areas': areas_list,
                                                         'area_query': area_query, 'ejercicio_query': ejercicio_query, 'municipio_query': municipio_query,
                                                         'total_beneficiarios': total_beneficiarios_busqueda})
 
+    else:
+        beneficiarios_list = [] 
+        total_beneficiarios_busqueda = 0
+
+        return render(request, 'lista_beneficiarios.html', {'municipios': municipios_list, 'areas': areas_list,
+                                                        'total_beneficiarios': total_beneficiarios_busqueda})
+    
 
 def editar_beneficiario(request, id):
     beneficiario = Beneficiario.objects.get(id=id)

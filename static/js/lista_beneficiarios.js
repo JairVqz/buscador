@@ -1,14 +1,24 @@
 const filtrosBusquedaAvanzada = document.getElementById("filtrosBusquedaAvanzada");
-  const buttonBusquedaAvanzada = document.getElementById("consultaavan");
+const btnMostrarFiltros = document.getElementById("consultaavan");
 
-  function ocultarMostrarBusqueda() {
-    console.log("CLICK BOTON OCULTAR MOSTRAR")
-      if (filtrosBusquedaAvanzada.style.display === 'none' || filtrosBusquedaAvanzada.style.display === '') {
-          filtrosBusquedaAvanzada.style.display = 'block'; // Muestra el elemento
-      } else {
-          filtrosBusquedaAvanzada.style.display = 'none'; // Oculta el elemento
-      }
-  }
+function ocultarMostrarBusqueda() {
+    if (filtrosBusquedaAvanzada.style.display === 'none' || filtrosBusquedaAvanzada.style.display === '') {
+        filtrosBusquedaAvanzada.style.display = 'block'; // Muestra el elemento
+    } else {
+        filtrosBusquedaAvanzada.style.display = 'none'; // Oculta el elemento
+    }
+}
 
-  // Asocia la función al evento click del botón
-  buttonBusquedaAvanzada.onclick = ocultarMostrarBusqueda; 
+btnMostrarFiltros.onclick = ocultarMostrarBusqueda; 
+
+const btnBuscar = document.getElementById("btnBuscar");
+const btnBusquedaAvanzada = document.getElementById("btnBusquedaAvanzada");
+const resultadosGenerales = document.getElementById("resultadosGenerales");
+
+function ocultarMostrarResultadosGenerales() {
+    if (resultadosGenerales.style.display === 'none' || resultadosGenerales.style.display === '') {
+        resultadosGenerales.style.display = 'block'; // Muestra el elemento
+    } else {
+        resultadosGenerales.style.display = 'none'; // Oculta el elemento
+    }
+}

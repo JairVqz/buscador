@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de beneficiarios</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/lista_beneficiarios.css' %}">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/lista_beneficiarios.css' %}">
 </head>
 
 <body>
@@ -23,63 +24,60 @@
       <h1>CONSULTAR</h1>
       <br>
       <nav>
-          <ul>
+        <ul>
 
-              <div class="card-container">
-                  <div class="card-icon">
-                      <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
-                  </div>
-                  <img src="/static/imagenes/personas.png" alt="Actualización" style="width: 80px; height: 80px;">
-                  <div class="card-value">123</div> <!-- Replace with dynamic value -->
-                  <div class="card-title">Personas Unicas</div>
-                  <div class="card-subtext">
-
-                  </div>
-              </div>
-              <div class="card-container-espacio">
-                  <div class="card-icon">
-                      <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
-                  </div>
-                  <img src="/static/imagenes/programas.png" alt="Actualización"
-                      style="width: 80px; height: 80px;">
-                  <div class="card-value">123</div> <!-- Replace with dynamic value -->
-                  <div class="card-title">Programas</div>
-                  <div class="card-subtext"> </div>
-              </div>
-              <div class="card-container" ;>
-                  <div class="card-icon">
-                      <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
-                  </div>
-                  <label-alt class="label-alt">DGOPS</label-alt>
-                  <br>
-                  <label-alt class="label-alt">DGMCV</label-alt>
-                  <br>
-                  <label-alt class="label-alt">DEAB</label-alt>
-                  <br>
-                  <div class="card-value">123</div> <!-- Replace with dynamic value -->
-                  <div class="card-title">Direcciones</div>
-                  <div class="card-subtext"></div>
-              </div>
-          </ul>
+          <div class="card-container">
+            <div class="card-icon">
+              <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
+            </div>
+            <img src="/static/imagenes/personas.png" alt="Actualización" style="width: 80px; height: 80px;">
+            <div class="card-value">123</div> <!-- Replace with dynamic value -->
+            <div class="card-title">Personas Unicas</div>
+          </div>
+          <div class="card-container-espacio">
+            <div class="card-icon">
+              <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
+            </div>
+            <img src="/static/imagenes/programas.png" alt="Actualización" style="width: 80px; height: 80px;">
+            <div class="card-value">123</div> <!-- Replace with dynamic value -->
+            <div class="card-title">Programas</div>
+            <div class="card-subtext"> </div>
+          </div>
+          <div class="card-container" ;>
+            <div class="card-icon">
+              <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
+            </div>
+            <label-alt class="label-alt">DGOPS</label-alt>
+            <br>
+            <label-alt class="label-alt">DGMCV</label-alt>
+            <br>
+            <label-alt class="label-alt">DEAB</label-alt>
+            <br>
+            <div class="card-value">123</div> <!-- Replace with dynamic value -->
+            <div class="card-title">Direcciones</div>
+            <div class="card-subtext"></div>
+          </div>
+        </ul>
       </nav>
       <br>
-      <form action="" method="get">
+        <form action="" method="get">
           <label for="busqueda">¿Qué padrón de beneficiarios deseas consultar?</label>
           <select id="direccion" name="area_search" value="{{ area_query }}">
-              <option disabled selected >-Elige una opción-</option>
-              <option>DGOPS(Dirección General de Operación de Programas Sociales)</option>
-              <option>DGMCV(Direccion General de Mejoramiento a las Condiciones de la Vivienda)</option>
-              <option value="Dirección de Enlace y Atención a Beneficiarios">DEAB(Dirección de Enlace y Atención a Beneficiarios)</option>
+            <option disabled selected>-Elige una opción-</option>
+            <option>DGOPS(Dirección General de Operación de Programas Sociales)</option>
+            <option>DGMCV(Direccion General de Mejoramiento a las Condiciones de la Vivienda)</option>
+            <option value="Dirección de Enlace y Atención a Beneficiarios">DEAB(Dirección de Enlace y Atención a
+              Beneficiarios)</option>
           </select>
-          <button type="submit" class="btn pulse-effect">Buscar</button>
+          <button type="submit" id="btnBuscar" class="btn pulse-effect">Buscar</button>
 
           <button type="button" class="btn pulse-effect" id='consultaavan'>Consulta Avanzada</button>
-      <br>
-      <br>
-      <div class="p-4 custom-border-alt2" id="filtrosBusquedaAvanzada" style="display: none;">
           <br>
-          <label for="Año">Año:</label>
-          <select id="Año" name="ejercicio_search" value="{{ ejercicio_query }}">
+          <br>
+          <div class="p-4 custom-border-alt2" id="filtrosBusquedaAvanzada" style="display: none;">
+            <br>
+            <label for="Año">Año:</label>
+            <select id="Año" name="ejercicio_search" value="{{ ejercicio_query }}">
               <option disabled selected>-Selecciona un año-</option>
               <option>2019</option>
               <option>2020</option>
@@ -87,144 +85,147 @@
               <option>2022</option>
               <option>2023</option>
               <option>2024</option>
-          </select>
-          <label for="direccion">Direccion:</label>
-          <select id="direccion" name="area_search" value="{{ area_query }}">
+            </select>
+            <label for="direccion">Direccion:</label>
+            <select id="direccion" name="area_search" value="{{ area_query }}">
               <option disabled selected>-Elige una Direccion-</option>
               {% for area in areas %}
               <option value="{{ area.nombre_completo }}">{{ area.nombre_completo }}</option>
               {% endfor %}
-          </select>
-          <label for="municipio">Municipio</label>
-          <select id="municipio" name="municipio_search" value="{{ municipio_query }}">
+            </select>
+            <label for="municipio">Municipio</label>
+            <select id="municipio" name="municipio_search" value="{{ municipio_query }}">
               <option disabled selected>-Elige un Municipio-</option>
               {% for municipio in municipios %}
               <option value="{{ municipio.nombre }}">{{ municipio.nombre }}</option>
               {% endfor %}
-          </select>
-          <button type="submit" class="btn pulse-effect">Buscar</button>
+            </select>
+            <button type="submit" id="btnBusquedaAvanzada" class="btn pulse-effect">Buscar</button>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
 
-  <div class="p-5 border border-1">
-    <p for="busqueda">Padron de Beneficiarios de la Sedesol </p>
-    <p>Total de Registros: {{ total_beneficiarios }}</p>
+    <div class="p-5 border border-1" id="resultadosGenerales">
+      <p for="busqueda">Padron de Beneficiarios de la Sedesol </p>
+      <p>Total de Registros: {{ total_beneficiarios }}</p>
 
-    <tbody>
-      {% if beneficiarios %}
-      <table class="content-table">
+      <tbody>
+        {% if beneficiarios %}
+        <table class="content-table">
           <thead>
-              <tr>
-                <th scope="col">Nombre(s)</th>
-                <th scope="col">Apellido Paterno</th>
-                <th scope="col">Apellido Materno</th>
-                <th scope="col">Sexo</th>
-                <th scope="col">Programa</th>
-                <th scope="col">Area Programa</th>
-                <th scope="col">Ejercicio</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Municipio</th>
+            <tr>
+              <th scope="col">Nombre(s)</th>
+              <th scope="col">Apellido Paterno</th>
+              <th scope="col">Apellido Materno</th>
+              <th scope="col">Sexo</th>
+              <th scope="col">Programa</th>
+              <th scope="col">Area Programa</th>
+              <th scope="col">Ejercicio</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Municipio</th>
 
-              </tr>
+            </tr>
           </thead>
           <tbody>
-              {% for beneficiario in beneficiarios %}
-              <tr>
-                <td>{{ beneficiario.nombres }}</td>
-                <td>{{ beneficiario.apellido_paterno }}</td>
-                <td>{{ beneficiario.apellido_materno }}</td>
-                <td>{{ beneficiario.sexo }}</td>
-                <td>{{ beneficiario.programa }}</td>
-                <td>{{ beneficiario.area_programa }}</td>
-                <td>{{ beneficiario.ejercicio }}</td>
-                <td>{{ beneficiario.fecha }}</td>
-                <td>{{ beneficiario.municipio }}</td>
-              </tr>
-              {% endfor %}
+            {% for beneficiario in beneficiarios %}
+            <tr>
+              <td>{{ beneficiario.nombres }}</td>
+              <td>{{ beneficiario.apellido_paterno }}</td>
+              <td>{{ beneficiario.apellido_materno }}</td>
+              <td>{{ beneficiario.sexo }}</td>
+              <td>{{ beneficiario.programa }}</td>
+              <td>{{ beneficiario.area_programa }}</td>
+              <td>{{ beneficiario.ejercicio }}</td>
+              <td>{{ beneficiario.fecha }}</td>
+              <td>{{ beneficiario.municipio }}</td>
+            </tr>
+            {% endfor %}
           </tbody>
+        </table>
 
-      </table>
-      {% else %}
-      <p>No se encontraron beneficiarios.</p>
-      {% endif %}
-      
-      <!-- Paginación -->
-    <nav aria-label="Page navigation">
-      <ul class="pagination">
-        {% if beneficiarios.has_previous %} <!--Se verifica si hay una pagina anterior-->
-        <li class="page-item">
-          <a class="page-link" href="?page=1&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Primero</a>
-          <!--Enlace que lleva a la primera página, con el parámetro de búsqueda ingresado en el buscador-->
-        </li>
-        <li class="page-item">
-          <a class="page-link"
-            href="?page={{ beneficiarios.previous_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Anterior</a>
-          <!--Enlace que lleva a la página anterior, con el parámetro de búsqueda ingresado en el buscador-->
-        </li>
+        <!-- Paginación -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            {% if beneficiarios.has_previous %} <!-- Verifica si hay una página anterior -->
+            <li class="page-item">
+              <a class="page-link"
+                href="?page=1&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Primero</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link"
+                href="?page={{ beneficiarios.previous_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Anterior</a>
+            </li>
+            {% endif %}
+
+            {% with start=1 %}
+            <!--Crea un contexto temporal. Aquí, se inicializa start en 1, que representa la primera página-->
+            {% with end=beneficiarios.paginator.num_pages %}
+            <!--Inicializa end con el total de páginas disponibles, lo que permite ajustar la paginación si hay muchas-->
+            {% if beneficiarios.number > 5 %}
+            <!--Verifica si la página actual es mayor que 5. Esto ayuda a decidir si mostrar un rango de paginas centrado alrededor de la página actual-->
+            {% with start=beneficiarios.number|add:-5 %}
+            <!--Crea un nuevo contexto para start, restando 5 al número de la página actual-->
+            {% with end=start|add:9 %}
+            <!--Calcula end sumando 9 a start, creando así un rango que incluye 10 páginas en total-->
+            {% for num in beneficiarios.paginator.page_range %}
+            <!--Comienza un bucle que itera sobre el rango de páginas disponibles en el paginador-->
+            {% if num >= start and num <= end %} <!--Condicional que verifica si el número de la pagina actual (num)
+              esta dentro del rango definido por start y end-->
+              <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
+                <a class="page-link"
+                  href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
+                  {{ num }}
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+              {% endwith %}
+              {% endwith %}
+              {% else %}
+              {% for num in beneficiarios.paginator.page_range %} <!--Bucle sobre todas las páginas disponibles-->
+              {% if num <= 10 %} <li class="page-item {% if beneficiarios.number == num %}active{% endif %}"> <!--Condicional que asegura que solo se muestren las primeras 10 páginas si la página
+                actual es 5 o menor-->
+                <a class="page-link"
+                  href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
+                  {{ num }}
+                </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                {% endwith %}
+
+                {% if beneficiarios.has_next %} <!-- Verifica si hay página siguiente -->
+                <li class="page-item">
+                  <a class="page-link"
+                    href="?page={{ beneficiarios.next_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Siguiente</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link"
+                    href="?page={{ beneficiarios.paginator.num_pages }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Último</a>
+                </li>
+                {% endif %}
+          </ul>
+        </nav>
+
+        {% else %}
+        <p>No se encontraron beneficiarios.</p>
         {% endif %}
 
-        {% with start=1 %}
-        <!--Crea un contexto temporal. Aquí, se inicializa start en 1, que representa la primera página-->
-        {% with end=beneficiarios.paginator.num_pages %}
-        <!--Inicializa end con el total de páginas disponibles, lo que permite ajustar la paginación si hay muchas-->
-        {% if beneficiarios.number > 5 %}
-        <!--Verifica si la página actual es mayor que 5. Esto ayuda a decidir si mostrar un rango de paginas centrado alrededor de la página actual-->
-        {% with start=beneficiarios.number|add:-5 %}
-        <!--Crea un nuevo contexto para start, restando 5 al número de la página actual-->
-        {% with end=start|add:9 %} {# Muestra 10 páginas en total #}
-        <!--Calcula end sumando 9 a start, creando así un rango que incluye 10 páginas en total-->
-        {% for num in beneficiarios.paginator.page_range %}
-        <!--Comienza un bucle que itera sobre el rango de páginas disponibles en el paginador-->
-        {% if num >= start and num <= end %} <!--Condicional que verifica si el número de la pagina actual (num) esta
-          dentro del rango definido por start y end-->
-          <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
-            <a class="page-link" href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">{{ num }}</a>
-          </li>
-          {% endif %}
-          {% endfor %}
-          {% endwith %}
-          {% endwith %}
-          {% else %}
-          {% for num in beneficiarios.paginator.page_range %} <!--Bucle sobre todas las páginas disponibles-->
-          {% if num <= 10 %} <!--Condicional que asegura que solo se muestren las primeras 10 páginas si la página
-            actual es 5 o menor-->
-            <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
-              <a class="page-link" href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">{{ num }}</a>
-            </li>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-            {% endwith %}
+        </span>
+    </div>
+    </tbody>
 
-            {% if beneficiarios.has_next %} <!--Verifica si hay página siguiente-->
-            <li class="page-item">
-              <a class="page-link"
-                href="?page={{ beneficiarios.next_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Siguiente</a>
-              <!--Enlace que lleva a la siguiente página, con el parámetro de búsqueda ingresado en el buscador-->
-            </li>
-            <li class="page-item">
-              <a class="page-link"
-                href="?page={{ beneficiarios.paginator.num_pages }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Último</a>
-              <!--Enlace que lleva a la última página, con el parámetro de búsqueda ingresado en el buscador-->
-            </li>
-            {% endif %}
-      </ul>
-    </nav>
-
-      </span>
-</div>
-</tbody>
-
-<div class="p-1 custom-border-alt">
-    <br>
-    <p class="p-alt">© Copyright 2019 - 2024 | SDSH | DGOPS | Subdirección de Integración y Actulalización de la
+    <div class="p-1 custom-border-alt">
+      <br>
+      <p class="p-alt">© Copyright 2019 - 2024 | SDSH | DGOPS | Subdirección de Integración y Actulalización de la
         Información | Aviso de Privacidad </p>
-</div>
+    </div>
+  </div>
 
-    <a href="{% url 'formulario_beneficiario' %}">Agregar</a>
-    <script src="{% static 'js/lista_beneficiarios.js' %}"></script>
+  <a href="{% url 'formulario_beneficiario' %}">Agregar</a>
+  <script src="{% static 'js/lista_beneficiarios.js' %}"></script>
 </body>
 
 </html>

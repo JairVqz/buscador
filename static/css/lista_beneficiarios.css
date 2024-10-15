@@ -98,8 +98,6 @@ h1 {
     /* Transición suave del efecto de pulsación */
 }
 
-
-
 .pulse-effect:hover {
     background-color: #b80c24;
     color: white;
