@@ -10,15 +10,3 @@ function ocultarMostrarBusqueda() {
 }
 
 btnMostrarFiltros.onclick = ocultarMostrarBusqueda; 
-
-const btnBuscar = document.getElementById("btnBuscar");
-const btnBusquedaAvanzada = document.getElementById("btnBusquedaAvanzada");
-const resultadosGenerales = document.getElementById("resultadosGenerales");
-
-function ocultarMostrarResultadosGenerales() {
-    if (resultadosGenerales.style.display === 'none' || resultadosGenerales.style.display === '') {
-        resultadosGenerales.style.display = 'block'; // Muestra el elemento
-    } else {
-        resultadosGenerales.style.display = 'none'; // Oculta el elemento
-    }
-}

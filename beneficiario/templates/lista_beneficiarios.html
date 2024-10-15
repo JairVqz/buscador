@@ -53,58 +53,59 @@
             <br>
             <label-alt class="label-alt">DEAB</label-alt>
             <br>
-            <div class="card-value">123</div> <!-- Replace with dynamic value -->
+            <div class="card-value">3</div> <!-- Replace with dynamic value -->
             <div class="card-title">Direcciones</div>
             <div class="card-subtext"></div>
           </div>
         </ul>
       </nav>
       <br>
-        <form action="" method="get">
-          <label for="busqueda">¿Qué padrón de beneficiarios deseas consultar?</label>
-          <select id="direccion" name="area_search" value="{{ area_query }}">
-            <option disabled selected>-Elige una opción-</option>
-            <option>DGOPS(Dirección General de Operación de Programas Sociales)</option>
-            <option>DGMCV(Direccion General de Mejoramiento a las Condiciones de la Vivienda)</option>
-            <option value="Dirección de Enlace y Atención a Beneficiarios">DEAB(Dirección de Enlace y Atención a
-              Beneficiarios)</option>
+      <form action="" method="get">
+        <label for="busqueda">¿Qué padrón de beneficiarios deseas consultar?</label>
+        <select id="direccion" name="area_search" value="{{ area_query }}">
+          <option disabled selected>-Elige una opción-</option>
+          <option value="Dirección General de Operación de Programas Sociales">DGOPS(Dirección General de Operación de Programas Sociales)</option>
+          <option value="Direccion General de Mejoramiento a las Condiciones de la Vivienda">DGMCV(Direccion General de Mejoramiento a las Condiciones de la Vivienda)</option>
+          <option value="Dirección de Enlace y Atención a Beneficiarios">DEAB(Dirección de Enlace y Atención a
+            Beneficiarios)</option>
+        </select>
+        <button type="submit" id="btnBuscar" class="btn pulse-effect">Buscar</button>
+
+        <button type="button" class="btn pulse-effect" id='consultaavan'>Consulta Avanzada</button>
+        <br>
+        <br>
+        <div class="p-4 custom-border-alt2" id="filtrosBusquedaAvanzada" style="display: none;">
+          <br>
+          <label for="Año">Año:</label>
+          <select id="Año" name="ejercicio_search" value="{{ ejercicio_query }}">
+            <option disabled selected>-Selecciona un año-</option>
+            <option>2019</option>
+            <option>2020</option>
+            <option>2021</option>
+            <option>2022</option>
+            <option>2023</option>
+            <option>2024</option>
           </select>
-          <button type="submit" id="btnBuscar" class="btn pulse-effect">Buscar</button>
+          <label for="direccion">Direccion:</label>
+          <select id="direccion" name="area_search" value="{{ area_query }}">
+            <option disabled selected>-Elige una Direccion-</option>
+            {% for area in areas %}
+            <option value="{{ area.nombre_completo }}">{{ area.nombre_completo }}</option>
+            {% endfor %}
+          </select>
+          <label for="municipio">Municipio</label>
+          <select id="municipio" name="municipio_search" value="{{ municipio_query }}">
+            <option disabled selected>-Elige un Municipio-</option>
+            {% for municipio in municipios %}
+            <option value="{{ municipio.nombre }}">{{ municipio.nombre }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" id="btnBusquedaAvanzada" class="btn pulse-effect">Buscar</button>
+        </div>
+      </form>
+    </div>
 
-          <button type="button" class="btn pulse-effect" id='consultaavan'>Consulta Avanzada</button>
-          <br>
-          <br>
-          <div class="p-4 custom-border-alt2" id="filtrosBusquedaAvanzada" style="display: none;">
-            <br>
-            <label for="Año">Año:</label>
-            <select id="Año" name="ejercicio_search" value="{{ ejercicio_query }}">
-              <option disabled selected>-Selecciona un año-</option>
-              <option>2019</option>
-              <option>2020</option>
-              <option>2021</option>
-              <option>2022</option>
-              <option>2023</option>
-              <option>2024</option>
-            </select>
-            <label for="direccion">Direccion:</label>
-            <select id="direccion" name="area_search" value="{{ area_query }}">
-              <option disabled selected>-Elige una Direccion-</option>
-              {% for area in areas %}
-              <option value="{{ area.nombre_completo }}">{{ area.nombre_completo }}</option>
-              {% endfor %}
-            </select>
-            <label for="municipio">Municipio</label>
-            <select id="municipio" name="municipio_search" value="{{ municipio_query }}">
-              <option disabled selected>-Elige un Municipio-</option>
-              {% for municipio in municipios %}
-              <option value="{{ municipio.nombre }}">{{ municipio.nombre }}</option>
-              {% endfor %}
-            </select>
-            <button type="submit" id="btnBusquedaAvanzada" class="btn pulse-effect">Buscar</button>
-          </div>
-        </form>
-      </div>
-
+    {% if mostrarResultados %}
     <div class="p-5 border border-1" id="resultadosGenerales">
       <p for="busqueda">Padron de Beneficiarios de la Sedesol </p>
       <p>Total de Registros: {{ total_beneficiarios }}</p>
@@ -212,19 +213,20 @@
         {% else %}
         <p>No se encontraron beneficiarios.</p>
         {% endif %}
+        {% endif %}
 
         </span>
     </div>
     </tbody>
 
-    <div class="p-1 custom-border-alt">
+    <div class="p-1 fixed-bottom custom-border-alt">
       <br>
       <p class="p-alt">© Copyright 2019 - 2024 | SDSH | DGOPS | Subdirección de Integración y Actulalización de la
         Información | Aviso de Privacidad </p>
     </div>
   </div>
 
-  <a href="{% url 'formulario_beneficiario' %}">Agregar</a>
+  <!--a href="{% url 'formulario_beneficiario' %}">Agregar</a-->
   <script src="{% static 'js/lista_beneficiarios.js' %}"></script>
 </body>
 

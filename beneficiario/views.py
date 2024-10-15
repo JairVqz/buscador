@@ -101,6 +101,7 @@ def lista_beneficiarios(request):
         )
         
         total_beneficiarios_busqueda = beneficiarios_list.count()
+        mostrarResultados = True
         
         # Implementar paginación
         paginator = Paginator(beneficiarios_list, 10)  # Mostrar 10 beneficiarios por página
@@ -109,16 +110,16 @@ def lista_beneficiarios(request):
 
         return render(request, 'lista_beneficiarios.html', {'beneficiarios': beneficiarios, 'municipios': municipios_list, 'areas': areas_list,
                                                         'area_query': area_query, 'ejercicio_query': ejercicio_query, 'municipio_query': municipio_query,
-                                                        'total_beneficiarios': total_beneficiarios_busqueda})
+                                                        'total_beneficiarios': total_beneficiarios_busqueda, 'mostrarResultados': mostrarResultados})
 
     else:
         beneficiarios_list = [] 
         total_beneficiarios_busqueda = 0
+        mostrarResultados = False
 
         return render(request, 'lista_beneficiarios.html', {'municipios': municipios_list, 'areas': areas_list,
-                                                        'total_beneficiarios': total_beneficiarios_busqueda})
+                                                        'total_beneficiarios': total_beneficiarios_busqueda, 'mostrarResultados': mostrarResultados})
     
-
 def editar_beneficiario(request, id):
     beneficiario = Beneficiario.objects.get(id=id)
     if request.method == 'POST':
