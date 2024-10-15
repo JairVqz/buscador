@@ -1,0 +1,234 @@
+nav ul {
+    display: flex;
+    justify-content: center;
+}
+
+/* General container for each card */
+.card-container {
+    width: 100%;
+    max-width: 200px;
+    margin: 10px;
+    padding: 7px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #f8f9fa;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.card-container-espacio {
+    width: 100%;
+    max-width: 200px;
+    margin: 10px;
+    padding: 7px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #f8f9fa;
+    animation: fadeIn 0.5s ease-in-out;
+    margin-right: 8em;
+    margin-left: 8em;
+}
+
+
+/* Card icon */
+.card-icon {
+    font-size: 48px;
+    color: #007bff;
+    /* Primary color */
+}
+
+/* Card title */
+.card-title {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #9c1a22;
+}
+
+/* Card value */
+.card-value {
+    font-size: 20px;
+    margin: 15px 0;
+    color: #333;
+}
+
+/* Subtext section */
+.card-subtext {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #9c1a22;
+    font-size: 14px;
+}
+
+.card-subtext i {
+    margin-right: 5px;
+}
+
+/* Simple fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+h1 {
+    text-align: center;
+    color: #9c1a22;
+    font-family: Arial, sans-serif;
+    font-size: 36px;
+    margin-top: 20px;
+}
+
+/* Estilos para los botones con efecto de pulsación */
+.pulse-effect {
+    border: none;
+    color: white;
+    padding: 8px 28px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #9c1a22;
+    /* Color base del botón */
+    transition: transform 0.3s ease-in-out;
+    /* Transición suave del efecto de pulsación */
+}
+
+
+
+.pulse-effect:hover {
+    background-color: #b80c24;
+    color: white;
+    /* Cambia el color al pasar el cursor sobre el botón */
+}
+
+.pulse-effect:active {
+    transform: scale(0.90);
+    /* Reduce ligeramente el tamaño del botón cuando se hace clic */
+}
+
+.btn+.btn {
+    margin-left: 200px;
+    /* Cambia el valor según la cantidad de separación que desees */
+}
+
+.custom-border {
+    padding: 16px;
+    /* Ajusta el padding según tus necesidades */
+    background-color: #9c1a22;
+    /* Relleno de color */
+    color: white;
+    /* Color del texto */
+    text-align: center;
+    /* Centrar contenido */
+}
+
+.custom-border-alt {
+    padding: 16px;
+    /* Ajusta el padding según tus necesidades */
+    background-color: #dddddd;
+    /* Relleno de color */
+    color: #000000;
+    /* Color del texto */
+    text-align: center;
+    /* Centrar contenido */
+}
+
+
+.custom-border-alt2 {
+    border-style: outset;
+    padding: 16px;
+    background-color: #f8f9fa;
+    /* Color de fondo diferente */
+    color: #000000;
+    /* Color de texto diferente */
+    text-align: center;
+    max-width: 1600px;
+    margin: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.custom-button {
+    display: inline-block;
+    color: white;
+    /* Color del texto del botón */
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    /* Quitar subrayado */
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    /* Transición suave */
+}
+
+.custom-button:hover {
+    color: white;
+}
+
+.content-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1em;
+    font-family: sans-serif;
+    min-width: 450px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+    background-color: #666666;
+    color: #ffffff;
+    text-align: center;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+    /* Borde entre celdas */
+    text-align: center;
+    /* Alineación del texto */
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+    /* Color de fondo para filas pares */
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #666666;
+    /* Borde inferior */
+}
+
+.p-alt {
+    font-size: 10px;
+    font-family: sans-serif;
+}
+
+.label-alt {
+    color: #9c1a22;
+    font-size: 17px;
+    text-transform: capitalize;
+    text-shadow:
+        -1px -1px 1px #aaa,
+        0px 2px 1px rgba(0, 0, 0, 0.5),
+        2px 2px 2px rgba(0, 0, 0, 0.7),
+        0px 0px 3px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.img {
+    display: block;
+    margin: 0 auto;
+    max-height: 10%;
+    height: auto;
+}
+
+.tablaResultados {
+    display: none;
+}

@@ -5,7 +5,6 @@ from django.http.response import JsonResponse
 from io import BytesIO
 from django.core.paginator import Paginator
 from django.db.models import Q
-from urllib.parse import unquote
 from .models import Beneficiario  # Asegúrate de importar tu modelo
 
 
