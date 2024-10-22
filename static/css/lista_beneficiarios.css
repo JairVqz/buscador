@@ -209,3 +209,21 @@ h1 {
 .tablaResultados {
     display: none;
 }
+
+.content-table {
+    width: 100%; /* Asegúrate de que la tabla ocupe el ancho completo */
+    border-collapse: collapse;
+}
+
+.content-table th, .content-table td {
+    padding: 14px; /* Espaciado en las celdas */
+    text-align: left; /* Alineación del texto */
+}
+
+.content-table th {
+    background-color: #666666; /* Color de fondo del encabezado */
+}
+
+.content-table td {
+    font-size: 14px;
+}
