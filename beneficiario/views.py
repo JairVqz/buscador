@@ -88,10 +88,6 @@ def lista_beneficiarios(request):
     beneficiarios_list = Beneficiario.objects.all()
     municipios_list = Municipio.objects.all()
     areas_list = Area.objects.all()
-
-    print("area: "+ area_query)
-    print("ejercicio: "+ ejercicio_query)
-    print("municipio: "+ municipio_query)
     
     if area_query or ejercicio_query or municipio_query:
         beneficiarios_list = beneficiarios_list.filter(
