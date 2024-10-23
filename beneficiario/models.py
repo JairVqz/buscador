@@ -6,6 +6,7 @@ from django.db import models
 
 class Beneficiario(models.Model):
     id = models.AutoField(primary_key=True)
+    folio_sd = models.CharField(max_length=20)
     nombres = models.CharField(max_length=100)
     apellido_paterno = models.CharField(max_length=100)
     apellido_materno = models.CharField(max_length=100)
@@ -13,7 +14,6 @@ class Beneficiario(models.Model):
     programa = models.CharField(max_length=100)
     area_programa = models.CharField(max_length=100)
     ejercicio = models.IntegerField(max_length=4)
-    fecha = models.DateField()
     municipio = models.CharField(max_length=255)
 
     class Meta:
