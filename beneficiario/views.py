@@ -89,6 +89,9 @@ def lista_beneficiarios(request):
     municipios_list = Municipio.objects.all()
     areas_list = Area.objects.all()
     
+    beneficiarios_unicos = beneficiarios_list.values_list("folio_sd", flat=True).distinct()
+    total_beneficiarios_unicos = len(beneficiarios_unicos)
+    
     if area_query or ejercicio_query or municipio_query:
         beneficiarios_list = beneficiarios_list.filter(
             Q(area_programa__icontains=area_query) &
@@ -106,7 +109,8 @@ def lista_beneficiarios(request):
 
         return render(request, 'lista_beneficiarios.html', {'beneficiarios': beneficiarios, 'municipios': municipios_list, 'areas': areas_list,
                                                         'area_query': area_query, 'ejercicio_query': ejercicio_query, 'municipio_query': municipio_query,
-                                                        'total_beneficiarios': total_beneficiarios_busqueda, 'mostrarResultados': mostrarResultados})
+                                                        'total_beneficiarios': total_beneficiarios_busqueda, 'mostrarResultados': mostrarResultados,
+                                                        'total_beneficiarios_unicos': total_beneficiarios_unicos})
 
     else:
         beneficiarios_list = [] 
@@ -114,7 +118,8 @@ def lista_beneficiarios(request):
         mostrarResultados = False
 
         return render(request, 'lista_beneficiarios.html', {'municipios': municipios_list, 'areas': areas_list,
-                                                        'total_beneficiarios': total_beneficiarios_busqueda, 'mostrarResultados': mostrarResultados})
+                                                        'total_beneficiarios': total_beneficiarios_busqueda, 'mostrarResultados': mostrarResultados,
+                                                        'total_beneficiarios_unicos': total_beneficiarios_unicos})
     
 def editar_beneficiario(request, id):
     beneficiario = Beneficiario.objects.get(id=id)
