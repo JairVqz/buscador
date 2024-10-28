@@ -71,7 +71,7 @@
 
         <div class="container">
           <div class="row">
-            <div class="col-lg-7 col-md-12 col-sm-12 justify-content-center align-items-center">
+            <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12 justify-content-center align-items-center">
               <label for="busqueda">¿Qué padrón de beneficiarios deseas consultar?</label>
               <br>
               <select id="direccion" class="w-100" name="area_search" value="{{ area_query }}">
@@ -85,12 +85,12 @@
               </select>
             </div>
 
-            <div class="col justify-content-center align-items-center mt-2">
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 justify-content-center align-items-center mt-2">
               <div class="text-center">
                 <button type="submit" id="btnBuscar" class="btn pulse-effect">Buscar</button>
               </div>
             </div>
-            <div class="col justify-content-center align-items-center mt-2">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 justify-content-center align-items-center mt-2">
               <div class="text-center">
                 <button type="button" class="btn pulse-effect" id='consultaavan'>Consulta Avanzada</button>
               </div>
@@ -155,81 +155,70 @@
     <tbody>
       {% if beneficiarios %}
       <div style="overflow-x: auto;">
-      <table class="content-table">
-        <thead>
-          <tr>
-            <th scope="col">Nombre(s)</th>
-            <th scope="col">Apellido Paterno</th>
-            <th scope="col">Apellido Materno</th>
-            <th scope="col">Sexo</th>
-            <th scope="col">Programa</th>
-            <th scope="col">Area Programa</th>
-            <th scope="col">Ejercicio</th>
-            <th scope="col">Municipio</th>
+        <table class="content-table">
+          <thead>
+            <tr>
+              <th scope="col">Nombre(s)</th>
+              <th scope="col">Apellido Paterno</th>
+              <th scope="col">Apellido Materno</th>
+              <th scope="col">Sexo</th>
+              <th scope="col">Programa</th>
+              <th scope="col">Area Programa</th>
+              <th scope="col">Ejercicio</th>
+              <th scope="col">Municipio</th>
 
-          </tr>
-        </thead>
-        <tbody>
-          {% for beneficiario in beneficiarios %}
-          <tr>
-            <td>{{ beneficiario.nombres }}</td>
-            <td>{{ beneficiario.apellido_paterno }}</td>
-            <td>{{ beneficiario.apellido_materno }}</td>
-            <td>{{ beneficiario.sexo }}</td>
-            <td>{{ beneficiario.programa }}</td>
-            <td>{{ beneficiario.area_programa }}</td>
-            <td>{{ beneficiario.ejercicio }}</td>
-            <td>{{ beneficiario.municipio }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+            </tr>
+          </thead>
+          <tbody>
+            {% for beneficiario in beneficiarios %}
+            <tr>
+              <td>{{ beneficiario.nombres }}</td>
+              <td>{{ beneficiario.apellido_paterno }}</td>
+              <td>{{ beneficiario.apellido_materno }}</td>
+              <td>{{ beneficiario.sexo }}</td>
+              <td>{{ beneficiario.programa }}</td>
+              <td>{{ beneficiario.area_programa }}</td>
+              <td>{{ beneficiario.ejercicio }}</td>
+              <td>{{ beneficiario.municipio }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-    <br>
+      <br>
 
       <!-- Paginación -->
       <nav aria-label="Page navigation">
-        <ul class="pagination">
-          {% if beneficiarios.has_previous %} <!-- Verifica si hay una página anterior -->
-          <li class="page-item">
-            <a class="page-link"
-              href="?page=1&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Primero</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link"
-              href="?page={{ beneficiarios.previous_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Anterior</a>
-          </li>
-          {% endif %}
-
-          {% with start=1 %}
-          <!--Crea un contexto temporal. Aquí, se inicializa start en 1, que representa la primera página-->
-          {% with end=beneficiarios.paginator.num_pages %}
-          <!--Inicializa end con el total de páginas disponibles, lo que permite ajustar la paginación si hay muchas-->
-          {% if beneficiarios.number > 5 %}
-          <!--Verifica si la página actual es mayor que 5. Esto ayuda a decidir si mostrar un rango de paginas centrado alrededor de la página actual-->
-          {% with start=beneficiarios.number|add:-5 %}
-          <!--Crea un nuevo contexto para start, restando 5 al número de la página actual-->
-          {% with end=start|add:9 %}
-          <!--Calcula end sumando 9 a start, creando así un rango que incluye 10 páginas en total-->
-          {% for num in beneficiarios.paginator.page_range %}
-          <!--Comienza un bucle que itera sobre el rango de páginas disponibles en el paginador-->
-          {% if num >= start and num <= end %} <!--Condicional que verifica si el número de la pagina actual (num) esta
-            dentro del rango definido por start y end-->
-            <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
+        <div class="row justify-content-center">
+          <ul class="pagination col-lg-6 col-md-8 col-sm-8 col-xs-8 flex-wrap justify-content-center ">
+            {% if beneficiarios.has_previous %} <!-- Verifica si hay una página anterior -->
+            <li class="page-item">
               <a class="page-link"
-                href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
-                {{ num }}
-              </a>
+                href="?page=1&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Primero</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link"
+                href="?page={{ beneficiarios.previous_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Anterior</a>
             </li>
             {% endif %}
-            {% endfor %}
-            {% endwith %}
-            {% endwith %}
-            {% else %}
-            {% for num in beneficiarios.paginator.page_range %} <!--Bucle sobre todas las páginas disponibles-->
-            {% if num <= 10 %} <li class="page-item {% if beneficiarios.number == num %}active{% endif %}"> <!--Condicional que asegura que solo se muestren las primeras 10 páginas si la página
-                actual es 5 o menor-->
+
+            {% with start=1 %}
+            <!--Crea un contexto temporal. Aquí, se inicializa start en 1, que representa la primera página-->
+            {% with end=beneficiarios.paginator.num_pages %}
+            <!--Inicializa end con el total de páginas disponibles, lo que permite ajustar la paginación si hay muchas-->
+            {% if beneficiarios.number > 5 %}
+            <!--Verifica si la página actual es mayor que 5. Esto ayuda a decidir si mostrar un rango de paginas centrado alrededor de la página actual-->
+            {% with start=beneficiarios.number|add:-5 %}
+            <!--Crea un nuevo contexto para start, restando 5 al número de la página actual-->
+            {% with end=start|add:9 %}
+            <!--Calcula end sumando 9 a start, creando así un rango que incluye 10 páginas en total-->
+            {% for num in beneficiarios.paginator.page_range %}
+            <!--Comienza un bucle que itera sobre el rango de páginas disponibles en el paginador-->
+            {% if num >= start and num <= end %}
+            <!--Condicional que verifica si el número de la pagina actual (num) esta
+            dentro del rango definido por start y end--> 
+            <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
               <a class="page-link"
                 href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
                 {{ num }}
@@ -237,21 +226,36 @@
               </li>
               {% endif %}
               {% endfor %}
-              {% endif %}
               {% endwith %}
               {% endwith %}
+              {% else %}
+              {% for num in beneficiarios.paginator.page_range %} <!--Bucle sobre todas las páginas disponibles-->
+              {% if num <= 10 %} <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
+                <!--Condicional que asegura que solo se muestren las primeras 10 páginas si la página
+                actual es 5 o menor-->
+                <a class="page-link"
+                  href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
+                  {{ num }}
+                </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                {% endwith %}
 
-              {% if beneficiarios.has_next %} <!-- Verifica si hay página siguiente -->
-              <li class="page-item">
-                <a class="page-link"
-                  href="?page={{ beneficiarios.next_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Siguiente</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link"
-                  href="?page={{ beneficiarios.paginator.num_pages }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Último</a>
-              </li>
-              {% endif %}
-        </ul>
+                {% if beneficiarios.has_next %} <!-- Verifica si hay página siguiente -->
+                <li class="page-item">
+                  <a class="page-link"
+                    href="?page={{ beneficiarios.next_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Siguiente</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link"
+                    href="?page={{ beneficiarios.paginator.num_pages }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Último</a>
+                </li>
+                {% endif %}
+          </ul>
+        </div>
       </nav>
 
       {% else %}
