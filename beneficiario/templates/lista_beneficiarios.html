@@ -24,47 +24,51 @@
       <h1>CONSULTAR</h1>
       <br>
 
-      <div class="container">
-        <div class="row">
-          <div class="col d-flex justify-content-center">
-            <div class="card-container">
-              <div class="card-icon">
-                <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center justify-content-lg-end justify-content-md-end justify-content-sm-center">
+          <div class="card-container d-flex align-items-center justify-content-center">
+            <div class="row">
+              <div class="col-4 d-flex justify-content-center align-items-center">
+                <img src="/static/imagenes/personas.png" alt="Personas Únicas" style="width: 90px; height: 90px;">
               </div>
-              <img src="/static/imagenes/personas.png" alt="Actualización" style="width: 80px; height: 80px;">
-              <div class="card-value">{{ total_beneficiarios_unicos }}</div> <!-- Replace with dynamic value -->
-              <div class="card-title">Personas Unicas</div>
-            </div>
-          </div>
-          <div class="col d-flex justify-content-center">
-            <div class="card-container">
-              <div class="card-icon">
-                <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
+              <div class="col-8">
+                <div class="card-value">{{ total_beneficiarios_unicos }}</div>
+                <div class="card-title">Personas Únicas</div>
               </div>
-              <img src="/static/imagenes/programas.png" alt="Actualización" style="width: 80px; height: 80px;">
-              <div class="card-value">123</div> <!-- Replace with dynamic value -->
-              <div class="card-title">Programas</div>
-              <div class="card-subtext"> </div>
-            </div>
-          </div>
-          <div class="col d-flex justify-content-center">
-            <div class="card-container" ;>
-              <div class="card-icon">
-                <i class="fa fa-building"></i> <!-- Font Awesome Icon -->
-              </div>
-              <label-alt class="label-alt">DGOPS</label-alt>
-              <br>
-              <label-alt class="label-alt">DGMCV</label-alt>
-              <br>
-              <label-alt class="label-alt">DEAB</label-alt>
-              <br>
-              <div class="card-value">3</div> <!-- Replace with dynamic value -->
-              <div class="card-title">Direcciones</div>
-              <div class="card-subtext"></div>
             </div>
           </div>
         </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center justify-content-lg-center justify-content-md-center justify-content-sm-center">
+          <div class="card-container d-flex align-items-center justify-content-center">
+            <div class="row">
+              <div class="col-4 d-flex justify-content-center align-items-center">
+                <img src="/static/imagenes/programas.png" alt="Programas y/o acciones" style="width: 90px; height: 90px;">
+              </div>
+              <div class="col-8">
+                <div class="card-value">21</div>
+                <div class="card-title">Programas/acciones</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 d-flex justify-content-center justify-content-lg-start justify-content-md-start justify-content-sm-center">
+          <div class="card-container d-flex align-items-center justify-content-center">
+            <div class="row">
+              <div class="col-4 d-flex justify-content-center align-items-center">
+                <img src="/static/imagenes/direcciones.png" alt="Direcciones" style="width: 90px; height: 90px;">
+              </div>
+              <div class="col-8">
+                <div class="card-value">3</div>
+                <div class="card-title">Direcciones</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
 
       <br>
       <form action="" method="get">
@@ -102,7 +106,7 @@
           <br>
 
           <div class="custom-border-alt2" id="filtrosBusquedaAvanzada" style="display: none;">
-            <h2>Filtros de búsqueda avanazada</h2>
+            <h3>Filtros de búsqueda avanazada</h3>
             <br>
             <div class="row">
               <div class="col-lg-3 col-md-4 col-sm-12 d-flex justify-content-center align-items-center">
@@ -120,7 +124,7 @@
               <div class="col-lg-3 col-md-4 col-sm-12 d-flex justify-content-center align-items-center">
                 <label for="direccion">Direccion:</label>
                 <select class="w-100" id="direccion" name="area_search" value="{{ area_query }}">
-                  <option disabled selected>-Elige una Direccion-</option>
+                  <option disabled selected>-Elige una Dirección-</option>
                   {% for area in areas %}
                   <option value="{{ area.nombre_completo }}">{{ area.nombre_completo }}</option>
                   {% endfor %}
@@ -215,14 +219,13 @@
             <!--Calcula end sumando 9 a start, creando así un rango que incluye 10 páginas en total-->
             {% for num in beneficiarios.paginator.page_range %}
             <!--Comienza un bucle que itera sobre el rango de páginas disponibles en el paginador-->
-            {% if num >= start and num <= end %}
-            <!--Condicional que verifica si el número de la pagina actual (num) esta
-            dentro del rango definido por start y end--> 
-            <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
-              <a class="page-link"
-                href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
-                {{ num }}
-              </a>
+            {% if num >= start and num <= end %} <!--Condicional que verifica si el número de la pagina actual (num)
+              esta dentro del rango definido por start y end-->
+              <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
+                <a class="page-link"
+                  href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
+                  {{ num }}
+                </a>
               </li>
               {% endif %}
               {% endfor %}
