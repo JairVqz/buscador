@@ -1,0 +1,72 @@
+{% load static %}
+<div style="overflow-x: auto;">
+    <table class="content-table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre(s)</th>
+                <th scope="col">Apellido Paterno</th>
+                <th scope="col">Apellido Materno</th>
+                <th scope="col">Sexo</th>
+                <th scope="col">Programa</th>
+                <th scope="col">Área Programa</th>
+                <th scope="col">Ejercicio</th>
+                <th scope="col">Municipio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if beneficiarios %}
+                {% for beneficiario in beneficiarios %}
+                <tr>
+                    <td>{{ beneficiario.nombres }}</td>
+                    <td>{{ beneficiario.apellido_paterno }}</td>
+                    <td>{{ beneficiario.apellido_materno }}</td>
+                    <td>{{ beneficiario.sexo }}</td>
+                    <td>{{ beneficiario.programa }}</td>
+                    <td>{{ beneficiario.area_programa }}</td>
+                    <td>{{ beneficiario.ejercicio }}</td>
+                    <td>{{ beneficiario.municipio }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="8" class="text-center">No se encontraron beneficiarios.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<br>
+
+<!-- Paginación -->
+<nav aria-label="Page navigation">
+    <div class="row justify-content-center">
+        <ul class="pagination col-lg-6 col-md-8 col-sm-8 col-xs-8 flex-wrap justify-content-center">
+            {% if beneficiarios.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Primero</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ beneficiarios.previous_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Anterior</a>
+            </li>
+            {% endif %}
+
+            {% for num in beneficiarios.paginator.page_range %}
+                {% if num == beneficiarios.number %}
+                <li class="page-item active"><a class="page-link">{{ num }}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if beneficiarios.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ beneficiarios.next_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Siguiente</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ beneficiarios.paginator.num_pages }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Último</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
