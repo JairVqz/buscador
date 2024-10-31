@@ -276,26 +276,6 @@
   </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#btnBuscar').click(function() {
-            $.ajax({
-                url: "{% url 'lista_beneficiarios' %}",  // Asegúrate de que esta URL sea correcta
-                type: "GET",
-                data: $('#searchForm').serialize(),
-                success: function(data) {
-                    $('#resultadosGenerales').html(data);  // Actualiza el div con los resultados
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-
   <script src="{% static 'js/lista_beneficiarios.js' %}"></script>
 </body>
 
