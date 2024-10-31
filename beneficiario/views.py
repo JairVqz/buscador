@@ -6,7 +6,9 @@ from io import BytesIO
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Beneficiario
-
+from django.http import HttpResponse
+from openpyxl import Workbook
+from django.views.generic import TemplateView
 
 from beneficiario.models import Beneficiario, Area, Municipio
 from beneficiario.serializers import BeneficiarioSerializer
@@ -78,16 +80,27 @@ def agregar_beneficiario(request):
         return render(request, 'formulario_registro.html')
 
 def lista_beneficiarios(request):
-    area_query = request.GET.get('area_search', '')
-    ejercicio_query = request.GET.get('ejercicio_search', '')
-    municipio_query = request.GET.get('municipio_search', '')
+    if request.method == 'POST':
+        area_query = request.POST.get('area_search', '')
+        ejercicio_query = request.POST.get('ejercicio_search', '')
+        municipio_query = request.POST.get('municipio_search', '')
+        page_number = request.POST.get('page', 1)  # Obtiene el número de página enviado desde el formulario
+    else:
+        area_query = ''
+        ejercicio_query = ''
+        municipio_query = ''
+        page_number = 1  # Por defecto a la primera página
 
     beneficiarios_list = Beneficiario.objects.all()
     municipios_list = Municipio.objects.all()
     areas_list = Area.objects.all()
+    consulta_realizada = False
     
     beneficiarios_unicos = beneficiarios_list.values_list("folio_sd", flat=True).distinct()
     total_beneficiarios_unicos = len(beneficiarios_unicos)
+    
+    programa_unico = beneficiarios_list.values_list("programa", flat=True).distinct()
+    total_programa_unico = len(programa_unico)
     
     if area_query or ejercicio_query or municipio_query:
         beneficiarios_list = beneficiarios_list.filter(
@@ -98,25 +111,79 @@ def lista_beneficiarios(request):
         
         total_beneficiarios_busqueda = beneficiarios_list.count()
         mostrarResultados = True
+        consulta_realizada = True  # Marcar como consulta realizada
         
         # Implementar paginación
-        paginator = Paginator(beneficiarios_list, 10)  # Mostrar 10 beneficiarios por página
-        page_number = request.GET.get('page')  # Obtener el número de página
-        beneficiarios = paginator.get_page(page_number)  # Obtener la página actual
+        paginator = Paginator(beneficiarios_list, 10)
+        beneficiarios = paginator.get_page(page_number)
 
-        return render(request, 'lista_beneficiarios.html', {'beneficiarios': beneficiarios, 'municipios': municipios_list, 'areas': areas_list,
-                                                        'area_query': area_query, 'ejercicio_query': ejercicio_query, 'municipio_query': municipio_query,
-                                                        'total_beneficiarios': total_beneficiarios_busqueda, 'mostrarResultados': mostrarResultados,
-                                                        'total_beneficiarios_unicos': total_beneficiarios_unicos})
+        return render(request, 'lista_beneficiarios.html', {
+            'beneficiarios': beneficiarios, 
+            'municipios': municipios_list, 
+            'areas': areas_list,
+            'area_query': area_query, 
+            'ejercicio_query': ejercicio_query, 
+            'municipio_query': municipio_query,
+            'total_beneficiarios': total_beneficiarios_busqueda, 
+            'mostrarResultados': mostrarResultados,
+            'total_beneficiarios_unicos': total_beneficiarios_unicos,
+            'total_programa_unico': total_programa_unico,
+            'consulta_realizada': consulta_realizada
+        })
 
     else:
         beneficiarios_list = [] 
         total_beneficiarios_busqueda = 0
         mostrarResultados = False
 
-        return render(request, 'lista_beneficiarios.html', {'municipios': municipios_list, 'areas': areas_list,
-                                                        'total_beneficiarios': total_beneficiarios_busqueda, 'mostrarResultados': mostrarResultados,
-                                                        'total_beneficiarios_unicos': total_beneficiarios_unicos})
+        return render(request, 'lista_beneficiarios.html', {
+            'municipios': municipios_list, 
+            'areas': areas_list,
+            'total_beneficiarios': total_beneficiarios_busqueda, 
+            'mostrarResultados': mostrarResultados,
+            'total_beneficiarios_unicos': total_beneficiarios_unicos,
+            'total_programa_unico': total_programa_unico,
+            'consulta_realizada': consulta_realizada
+        })
+
+class ReportebenExcel(TemplateView):
+    def get(self, *args, **kwargs):
+        beneficiarios = Beneficiario.objects.all()
+        wb = Workbook()
+        ws = wb.active
+
+        ws['B1'] = 'REPORTE'
+        ws.merge_cells('B1:I1')
+        ws['B3'] = 'NOMBRE'
+        ws['C3'] = 'APELLIDO PATERNO'
+        ws['D3'] = 'APELLIDO MATERNO'
+        ws['E3'] = 'SEXO'
+        ws['F3'] = 'PROGRAMA'
+        ws['G3'] = 'AREA'
+        ws['H3'] = 'EJERCICIO'
+        ws['I3'] = 'MUNICIPIO'
+
+        cont = 4  # Ajustado a 4 para que inicie después del encabezado
+
+        for beneficiario in beneficiarios:
+            ws.cell(row=cont, column=2).value = beneficiario.nombres
+            ws.cell(row=cont, column=3).value = beneficiario.apellido_paterno
+            ws.cell(row=cont, column=4).value = beneficiario.apellido_materno
+            ws.cell(row=cont, column=5).value = beneficiario.sexo
+            ws.cell(row=cont, column=6).value = beneficiario.programa
+            ws.cell(row=cont, column=7).value = beneficiario.area_programa
+            ws.cell(row=cont, column=8).value = beneficiario.ejercicio
+            ws.cell(row=cont, column=9).value = beneficiario.municipio
+            cont += 1
+
+        # Configuración de la respuesta HTTP con el archivo
+        nombre_archivo = "Reporte Padron de Beneficiarios.xlsx"
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = f'attachment; filename="{nombre_archivo}"'
+        
+        # Guardar el archivo en la respuesta
+        wb.save(response)
+        return response
     
 def editar_beneficiario(request, id):
     beneficiario = Beneficiario.objects.get(id=id)

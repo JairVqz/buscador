@@ -9,6 +9,7 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/lista_beneficiarios.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -16,7 +17,6 @@
     <img src="/static/imagenes/siai_logo.png" class="img" alt="Header Image">
     <br>
     <div class="p-1 custom-border">
-  
       <a href="#inicio" class="custom-button">Regresar al inicio</a>
     </div>
 
@@ -70,7 +70,8 @@
       </div>
 
       <br>
-      <form action="" method="get">
+      <form action="" method="post">
+        {% csrf_token %}
 
         <div class="container">
           <div class="row">
@@ -154,6 +155,9 @@
   <div class="p-5 border border-1" id="resultadosGenerales">
     <p for="busqueda">Padron de Beneficiarios de la Sedesol </p>
     <p>Total de Registros: {{ total_beneficiarios }}</p>
+    <br>
+    <a href="{% url 'reporte_excel_padron' %}">Descargar Resultados</a>
+    <br>
 
     <tbody>
       {% if beneficiarios %}
@@ -194,74 +198,75 @@
       <!-- Paginación -->
       <nav aria-label="Page navigation">
         <div class="row justify-content-center">
-          <ul class="pagination col-lg-6 col-md-8 col-sm-8 col-xs-8 flex-wrap justify-content-center ">
-            {% if beneficiarios.has_previous %} <!-- Verifica si hay una página anterior -->
-            <li class="page-item">
-              <a class="page-link"
-                href="?page=1&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Primero</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link"
-                href="?page={{ beneficiarios.previous_page_number }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Anterior</a>
-            </li>
-            {% endif %}
-
-            {% with start=1 %}
-            <!--Crea un contexto temporal. Aquí, se inicializa start en 1, que representa la primera página-->
-            {% with end=beneficiarios.paginator.num_pages %}
-            <!--Inicializa end con el total de páginas disponibles, lo que permite ajustar la paginación si hay muchas-->
-            {% if beneficiarios.number > 5 %}
-            <!--Verifica si la página actual es mayor que 5. Esto ayuda a decidir si mostrar un rango de paginas centrado alrededor de la página actual-->
-            {% with start=beneficiarios.number|add:-5 %}
-            <!--Crea un nuevo contexto para start, restando 5 al número de la página actual-->
-            {% with end=start|add:9 %}
-            <!--Calcula end sumando 9 a start, creando así un rango que incluye 10 páginas en total-->
-            {% for num in beneficiarios.paginator.page_range %}
-            <!--Comienza un bucle que itera sobre el rango de páginas disponibles en el paginador-->
-            {% if num >= start and num <= end %} <!--Condicional que verifica si el número de la pagina actual (num)
-              esta dentro del rango definido por start y end-->
-              <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
-                <a class="page-link"
-                  href="?page={{ num }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
-                  {{ num }}
-                </a>
+          <form id="paginationForm" method="post">
+            {% csrf_token %}
+            <ul class="pagination col-lg-6 col-md-8 col-sm-8 col-xs-8 flex-wrap justify-content-center">
+              {% if beneficiarios.has_previous %}
+              <li class="page-item">
+                <button type="submit" name="page" value="1" class="page-link">Primero</button>
+              </li>
+              <li class="page-item">
+                <button type="submit" name="page" value="{{ beneficiarios.previous_page_number }}"
+                  class="page-link">Anterior</button>
               </li>
               {% endif %}
-              {% endfor %}
-              {% endwith %}
-              {% endwith %}
-              {% else %}
-              {% for num in beneficiarios.paginator.page_range %} <!--Bucle sobre todas las páginas disponibles-->
-              {% if num <= 10 %} <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
-                <!--Condicional que asegura que solo se muestren las primeras 10 páginas si la página
-                actual es 5 o menor-->
-                <a class="page-link"
-                  href="?page={{ num }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
-                  {{ num }}
-                </a>
+
+              {% with start=1 %}
+              {% with end=beneficiarios.paginator.num_pages %}
+              {% if beneficiarios.number > 5 %}
+              {% with start=beneficiarios.number|add:-5 %}
+              {% with end=start|add:9 %}
+              {% for num in beneficiarios.paginator.page_range %}
+              {% if num >= start and num <= end %} <li
+                class="page-item {% if beneficiarios.number == num %}active{% endif %}">
+                <button type="submit" name="page" value="{{ num }}" class="page-link">{{ num }}</button>
                 </li>
                 {% endif %}
                 {% endfor %}
-                {% endif %}
                 {% endwith %}
                 {% endwith %}
+                {% else %}
+                {% for num in beneficiarios.paginator.page_range %}
+                {% if num <= 10 %} <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
+                  <button type="submit" name="page" value="{{ num }}" class="page-link">{{ num }}</button>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+                  {% endwith %}
+                  {% endwith %}
 
-                {% if beneficiarios.has_next %} <!-- Verifica si hay página siguiente -->
-                <li class="page-item">
-                  <a class="page-link"
-                    href="?page={{ beneficiarios.next_page_number }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Siguiente</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link"
-                    href="?page={{ beneficiarios.paginator.num_pages }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Último</a>
-                </li>
-                {% endif %}
-          </ul>
+                  {% if beneficiarios.has_next %}
+                  <li class="page-item">
+                    <button type="submit" name="page" value="{{ beneficiarios.next_page_number }}"
+                      class="page-link">Siguiente</button>
+                  </li>
+                  <li class="page-item">
+                    <button type="submit" name="page" value="{{ beneficiarios.paginator.num_pages }}"
+                      class="page-link">Último</button>
+                  </li>
+                  {% endif %}
+            </ul>
+            <!-- Campos ocultos para mantener los parámetros de búsqueda -->
+            <input type="hidden" name="area_search" value="{{ area_query }}">
+            <input type="hidden" name="ejercicio_search" value="{{ ejercicio_query }}">
+            <input type="hidden" name="municipio_search" value="{{ municipio_query }}">
+          </form>
         </div>
       </nav>
 
       {% else %}
-      <p>No se encontraron beneficiarios.</p>
+      {% if consulta_realizada and not beneficiarios %}
+      <script>
+        Swal.fire({
+          icon: 'info',
+          title: 'No se encontraron resultados',
+          text: 'No hay beneficiarios que coincidan con su búsqueda. Por favor, realice otra consulta.',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#991b1b'
+        });
+      </script>
+      {% endif %}
       {% endif %}
       {% endif %}
 

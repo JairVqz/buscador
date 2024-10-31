@@ -13,3 +13,4 @@ Con nuestro entorno activado instalamos la dependencias con el siguiente comando
 5. dnspython
 6. pymongo==3.12.0
 7. pytz
+8. openpyxl
