@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Beneficiario</title>
+</head>
+<body>
+
+    <form method="POST" action="{% url 'editar_beneficiario' beneficiario.id %}">
+        {% csrf_token %}
+        <label for="nombre">Nombre(s)</label>
+        <input type="text" id="nombres" name="nombres" value="{{ beneficiario.nombres }}">
+
+        <label for="apellidoPaterno">Apellido Paterno</label>
+        <input type="text" id="apellidoPaterno" name="apellidoPaterno" value="{{ beneficiario.apellidoPaterno }}">
+
+        <label for="apellidoMaterno">Apellido Materno</label>
+        <input type="text" id="apellidoMaterno" name="apellidoMaterno" value="{{ beneficiario.apellidoMaterno }}">
+
+        <label for="sexo">Sexo</label>
+        <input type="text" id="sexo" name="sexo" value="{{ beneficiario.sexo }}">
+
+        <label for="programa">Programa</label>
+        <input type="text" id="programa" name="programa" value="{{ beneficiario.programa }}">
+
+        <label for="area_programa">Area Programa</label>
+        <input type="text" id="area_programa" name="area_programa" value="{{ beneficiario.area_programa }}">
+
+        <label for="ejercicio">Ejercicio</label>
+        <input type="text" id="ejercicio" name="ejercicio" value="{{ beneficiario.ejercicio }}">
+
+        <label for="fecha">Fecha</label>
+        <input type="text" id="fecha" name="fecha" value="{{ beneficiario.fecha }}">
+
+        <label for="municipio">Municipio</label>
+        <input type="text" id="municipio" name="municipio" value="{{ beneficiario.municipio }}">
+
+        <button type="submit">Guardar cambios</button>
+
+    </form>
+    
+</body>
+</html>
