@@ -5,4 +5,8 @@ from django.contrib import admin
 urlpatterns=[
     path('admin/', admin.site.urls),
     path('', views.lista_beneficiarios, name='lista_beneficiarios'),
+    path('beneficiarios/', views.beneficiariosApi),
+    path('agregar_beneficiario/', views.agregar_beneficiario, name='agregar_beneficiario'),
+    path('eliminar_beneficiario/<int:id>/', views.eliminar_beneficiario, name='eliminar_beneficiario'),
+    path('editar_beneficiario/<int:id>/', views.editar_beneficiario, name='editar_beneficiario'),
 ]

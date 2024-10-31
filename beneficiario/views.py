@@ -11,9 +11,8 @@ from .models import Beneficiario
 from beneficiario.models import Beneficiario, Area, Municipio
 from beneficiario.serializers import BeneficiarioSerializer
 
-# Create your views here.
-
 @csrf_exempt
+# Función para pruebas con postman
 def beneficiariosApi(request, id=0):
     if request.method == 'GET':
         beneficiarios = Beneficiario.objects.all()
@@ -55,14 +54,12 @@ def formulario_beneficiario(request):
             beneficiarios_serializer.save()
             return redirect('lista_beneficiarios')
         
-        # Renderiza el formulario nuevamente con los errores y los datos ingresados
         return render(request, 'formulario_registro.html', {
             'serializer': beneficiarios_serializer,
             'areas_list': areas_list
         })
 
-    # Si no es POST, renderiza el formulario vacío
-    beneficiarios_serializer = BeneficiarioSerializer()  # Crea un serializer vacío
+    beneficiarios_serializer = BeneficiarioSerializer()
     return render(request, 'formulario_registro.html', {
         'serializer': beneficiarios_serializer,
         'areas_list': areas_list

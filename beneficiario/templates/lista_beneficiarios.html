@@ -16,7 +16,7 @@
     <img src="/static/imagenes/siai_logo.png" class="img" alt="Header Image">
     <br>
     <div class="p-1 custom-border">
-      <!-- Contenido aquí -->
+  
       <a href="#inicio" class="custom-button">Regresar al inicio</a>
     </div>
 
@@ -68,7 +68,6 @@
         </div>
 
       </div>
-
 
       <br>
       <form action="" method="get">
@@ -199,11 +198,11 @@
             {% if beneficiarios.has_previous %} <!-- Verifica si hay una página anterior -->
             <li class="page-item">
               <a class="page-link"
-                href="?page=1&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Primero</a>
+                href="?page=1&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Primero</a>
             </li>
             <li class="page-item">
               <a class="page-link"
-                href="?page={{ beneficiarios.previous_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Anterior</a>
+                href="?page={{ beneficiarios.previous_page_number }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Anterior</a>
             </li>
             {% endif %}
 
@@ -223,7 +222,7 @@
               esta dentro del rango definido por start y end-->
               <li class="page-item {% if beneficiarios.number == num %}active{% endif %}">
                 <a class="page-link"
-                  href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
+                  href="?page={{ num }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
                   {{ num }}
                 </a>
               </li>
@@ -237,7 +236,7 @@
                 <!--Condicional que asegura que solo se muestren las primeras 10 páginas si la página
                 actual es 5 o menor-->
                 <a class="page-link"
-                  href="?page={{ num }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
+                  href="?page={{ num }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">
                   {{ num }}
                 </a>
                 </li>
@@ -250,11 +249,11 @@
                 {% if beneficiarios.has_next %} <!-- Verifica si hay página siguiente -->
                 <li class="page-item">
                   <a class="page-link"
-                    href="?page={{ beneficiarios.next_page_number }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Siguiente</a>
+                    href="?page={{ beneficiarios.next_page_number }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Siguiente</a>
                 </li>
                 <li class="page-item">
                   <a class="page-link"
-                    href="?page={{ beneficiarios.paginator.num_pages }}&area_search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Último</a>
+                    href="?page={{ beneficiarios.paginator.num_pages }}&search={{ area_query }}&ejercicio_search={{ ejercicio_query }}&municipio_search={{ municipio_query }}">Último</a>
                 </li>
                 {% endif %}
           </ul>
@@ -276,6 +275,26 @@
       Información | Aviso de Privacidad </p>
   </div>
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#btnBuscar').click(function() {
+            $.ajax({
+                url: "{% url 'lista_beneficiarios' %}",  // Asegúrate de que esta URL sea correcta
+                type: "GET",
+                data: $('#searchForm').serialize(),
+                success: function(data) {
+                    $('#resultadosGenerales').html(data);  // Actualiza el div con los resultados
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
 
   <script src="{% static 'js/lista_beneficiarios.js' %}"></script>
 </body>
